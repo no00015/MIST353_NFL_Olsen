@@ -8,11 +8,11 @@ if(OBJECT_ID('TEAM')is not null)
 create table ConferenceDivision(
     ConferenceDivisionID INT identify(1,1)
         constraint PK_ConferenceDivision PRIMARY KEY,
-    Conference NVARCHAR(50) NOT NULL
+    Conference NVARCHAR(50) NOT NULL,
         constraint CK_ConferenceNames CHECK (Conference IN ('AFC', 'NFC')),
-    Division NVARCHAR(50) NOT NULL
+    Division NVARCHAR(50) NOT NULL,
         constraint CK_DivisionNames CHECK (Division IN ('East', 'North', 'South', 'West')),
-    constraint UK_ConferenceDivision UNIQUE (Conference, Division)
+    constraint UK_ConferenceDivision UNIQUE (Conference, Division),
     
 );
 
