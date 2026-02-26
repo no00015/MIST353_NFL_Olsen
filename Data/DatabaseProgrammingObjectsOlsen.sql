@@ -33,4 +33,4 @@ from Team MyTeam
 inner join Team OtherTeam on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
 where MyTeam.TeamName = @myTeamName
     and OtherTeam.TeamName != @myTeamName;
-    -- This shows our team and its division rivals
+    -- This shows our team and its division rivals.
