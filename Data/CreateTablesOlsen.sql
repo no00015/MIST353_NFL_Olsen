@@ -12,6 +12,13 @@ if(OBJECT_ID('Stadium')is not null)
     drop table Stadium;
 if(OBJECT_ID('TeamStadium')is not null)
     drop table TeamStadium;
+if(OBJECT_ID('Game')is not null)
+    drop table Game;
+if(OBJECT_ID('AdminUpdate')is not null)
+    drop table AdminUpdate;
+if(OBJECT_ID('FanTeam')is not null)
+    drop table FanTeam;
+
 
 create table AppUser(
     AppUserID INT identity(1,1)
@@ -38,7 +45,7 @@ create table ConferenceDivision(
 );
 
 
-create TABLE Stadium(
+create table Stadium(
     StadiumID INT identity(1,1)
         constraint PK_Stadium PRIMARY KEY,
     StadiumName NVARCHAR(100) NOT NULL,
@@ -51,7 +58,7 @@ create TABLE Stadium(
 
 GO
 
-create TABLE Team (
+create table Team (
     TeamID INT identity(1,1)
         constraint PK_Team PRIMARY KEY,
     TeamName NVARCHAR(50) NOT NULL,
@@ -70,4 +77,43 @@ create TABLE TeamStadium(
         constraint FK_TeamStadium_Stadium FOREIGN KEY REFERENCES Stadium(StadiumID),
     StartDate DATE NOT NULL,
     EndDate DATE NOT NULL
+);
+
+create TABLE Game(
+    GameID INT identity(1,1)
+        constraint PK_Game PRIMARY KEY,
+    GameStartTime DATETIME NOT NULL,
+    GameEndTime DATETIME NULL,
+    HomeTeamID INT NOT NULL
+        constraint FK_Game_HomeTeam FOREIGN KEY REFERENCES Team(TeamID),
+    AwayTeamID INT NOT NULL
+        constraint FK_Game_AwayTeam FOREIGN KEY REFERENCES Team(TeamID),
+    HomeTeamLocation NVARCHAR(100) NOT NULL,
+    HomeTeamScore INT NOT NULL,
+    AwayTeamScore INT NOT NULL,
+    StadiumID INT NOT NULL
+        constraint FK_Game_Stadium FOREIGN KEY REFERENCES Stadium(StadiumID)
+);
+
+
+create table AdminUpdate(
+    AdminUpdateID INT identity(1,1)
+        constraint PK_AdminUpdate PRIMARY KEY,
+    UpdateDateTime DATETIME NOT NULL,
+    UpdateType NVARCHAR(50) NOT NULL,
+    UpdatedValues NVARCHAR(MAX) NOT NULL,
+    NFLAdminID INT NOT NULL
+        constraint FK_AdminUpdate_NFLAdmin
+            FOREIGN KEY REFERENCES NFLAdmin(AppUserID)
+);
+
+create table FanTeam(
+    FanTeamID INT identity(1,1)
+        constraint PK_FanTeam PRIMARY KEY,
+    NFLFanID INT NOT NULL
+        constraint FK_FanTeam_Fan
+            FOREIGN KEY REFERENCES NFLFan(NFLFanID),
+    TeamID INT NOT NULL
+        constraint FK_FanTeam_Team
+            FOREIGN KEY REFERENCES Team(TeamID),
 );
