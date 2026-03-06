@@ -1,7 +1,7 @@
 -- 3 queries
 -- 1 each for ConferenceDivision and Team Tables, and 1 join query
 
-Use
+
 
 GO
 

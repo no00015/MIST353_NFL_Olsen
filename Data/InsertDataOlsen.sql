@@ -1,4 +1,4 @@
-use MIST353_NFL_RDB_Olsen
+--use [mist353-nfl-rdb-olsen]
 
 insert into ConferenceDivision (Conference, Division)
 values ('AFC','North'),
