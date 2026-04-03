@@ -9,11 +9,13 @@ load_dotenv()
 def test_get_db_connection():
 
 
-  required_vars = ["DB_SERVER", "DB_NAME", "DB_LOGIN", "DB_PASSWORD"]
+  required_vars = ["DB_SERVER", "DB_NAME", "DB_PASSWORD"]
 
   missing = [v for v in required_vars if not os.getenv(v)]
+  login_present = bool(os.getenv("DB_LOGIN") or os.getenv("DB_USER"))
 
   assert not missing, f"Missing env vars: {missing}"
+  assert login_present, "Missing DB_LOGIN or DB_USER"
 
   print("Env vars loaded")
 

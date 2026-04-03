@@ -8,7 +8,7 @@ def validate_user(
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
-        cursor.execute("{call procValidateUser(?, ?)}", (email, password_hash))
+        cursor.execute("{call dbo.procValidateUser(?, ?)}", (email, password_hash))
         columns = [column[0] for column in cursor.description]
         rows = cursor.fetchall()
     finally:

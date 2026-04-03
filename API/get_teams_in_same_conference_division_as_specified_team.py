@@ -7,7 +7,7 @@ def get_teams_in_same_conference_division_as_specified_team(
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
-        cursor.execute("{call procGetTeamsInSameConferenceDivisionAsSpecifiedTeam(?)}", (team_name,))
+        cursor.execute("{call dbo.procGetTeamsInSameConferenceDivisionAsSpecifiedTeam(?)}", (team_name,))
         columns = [column[0] for column in cursor.description]
         rows = cursor.fetchall()
     finally:

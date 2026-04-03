@@ -8,7 +8,7 @@ def get_teams_by_conference_division(
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
-        cursor.execute("{call procGetTeamsByConferenceDivision(?, ?)}", (conference, division))
+        cursor.execute("{call dbo.procGetTeamsByConferenceDivision(?, ?)}", (conference, division))
         columns = [column[0] for column in cursor.description]
         rows = cursor.fetchall()
     finally:
