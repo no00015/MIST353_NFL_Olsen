@@ -1,36 +1,63 @@
--- 3 queries
--- 1 each for ConferenceDivision and Team Tables, and 1 join query
-
-
-
 GO
 
-create or alter procedure procGetTeamsByConferenceDiviision
+CREATE OR ALTER PROCEDURE dbo.procGetTeamsByConferenceDivision
 (
-    @ConfereceName nvarchar(50) = null,
-    @DivisionName nvarchar(50) = null
+    @ConferenceName NVARCHAR(50) = NULL,
+    @DivisionName NVARCHAR(50) = NULL
 )
-
 AS
 BEGIN
-    Select TeamName, TeamColors, Conference, DivisionName
-    from Team T
-    inner join ConferenceDivision as CD 
-        on T.ConferenceDivisionID = CD.ConferenceDivisionID
-    where Conference = IsNull(@ConferenceName, Conference)
-      and Division = IsNull(@DivisionName, Division)
-
-     -- This code above filters our results to show teams with their colors, conferences, and division names
-end
-
+    SELECT
+        t.TeamName,
+        t.TeamCityState,
+        t.TeamColors,
+        cd.Conference,
+        cd.Division
+    FROM dbo.Team AS t
+    INNER JOIN dbo.ConferenceDivision AS cd
+        ON t.ConferenceDivisionID = cd.ConferenceDivisionID
+    WHERE cd.Conference = ISNULL(@ConferenceName, cd.Conference)
+      AND cd.Division = ISNULL(@DivisionName, cd.Division)
+    ORDER BY cd.Conference, cd.Division, t.TeamName;
+END
 GO
 
-declare @myTeamName nvarchar(50) = 'New York Giants';
+CREATE OR ALTER PROCEDURE dbo.procGetTeamsInSameConferenceDivisionAsSpecifiedTeam
+(
+    @TeamName NVARCHAR(50)
+)
+AS
+BEGIN
+    SELECT
+        peer.TeamName,
+        peer.TeamCityState,
+        peer.TeamColors,
+        cd.Conference,
+        cd.Division
+    FROM dbo.Team AS chosen
+    INNER JOIN dbo.Team AS peer
+        ON chosen.ConferenceDivisionID = peer.ConferenceDivisionID
+    INNER JOIN dbo.ConferenceDivision AS cd
+        ON peer.ConferenceDivisionID = cd.ConferenceDivisionID
+    WHERE chosen.TeamName = @TeamName
+      AND peer.TeamName <> @TeamName
+    ORDER BY peer.TeamName;
+END
+GO
 
-
-select OtherTeam.TeamName
-from Team MyTeam 
-inner join Team OtherTeam on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
-where MyTeam.TeamName = @myTeamName
-    and OtherTeam.TeamName != @myTeamName;
-    -- This shows our team and its division rivals.
+CREATE OR ALTER PROCEDURE dbo.procValidateUser
+(
+    @Email NVARCHAR(100),
+    @Password NVARCHAR(255)
+)
+AS
+BEGIN
+    SELECT
+        AppUserID,
+        FirstName + ' ' + LastName AS FullName,
+        UserRole
+    FROM dbo.AppUser
+    WHERE Email = @Email
+      AND Password = @Password;
+END
+GO

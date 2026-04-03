@@ -1,40 +1,30 @@
 from get_db_connection import get_db_connection
 
 import os
-
 import pyodbc
-
 from dotenv import load_dotenv
 
 load_dotenv()
 
-
-
 def test_get_db_connection():
 
-  # Test 1: Check env vars are loaded
 
-  required_vars = ["DB_SERVER", "DB_NAME", "DB_USER", "DB_PASSWORD"]
+  required_vars = ["DB_SERVER", "DB_NAME", "DB_LOGIN", "DB_PASSWORD"]
 
   missing = [v for v in required_vars if not os.getenv(v)]
 
   assert not missing, f"Missing env vars: {missing}"
 
-  print("✅ Env vars loaded")
+  print("Env vars loaded")
 
 
-
-  # Test 2: Connection returns a pyodbc.Connection object
 
   conn = get_db_connection()
 
   assert isinstance(conn, pyodbc.Connection), "Expected a pyodbc.Connection"
 
-  print("✅ Connection object returned")
+  print("Connection object returned")
 
-
-
-  # Test 3: Connection is usable (run a simple query)
 
   cursor = conn.cursor()
 
@@ -44,15 +34,13 @@ def test_get_db_connection():
 
   assert result[0] == 1, "Expected query result of 1"
 
-  print("✅ Connection is live and queryable")
-
-
+  print("Connection is live and queryable")
 
   conn.close()
 
-  print("✅ Connection closed cleanly")
+  print("Connection closed cleanly")
 
-  print("\n🎉 All tests passed!")
+  print("\nAll tests passed!")
 
 
 
