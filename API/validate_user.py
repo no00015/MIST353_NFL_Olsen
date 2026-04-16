@@ -1,19 +1,23 @@
 from get_db_connection import get_db_connection
-
+import pymssql
 
 def validate_user(
-    email: str,
-    password_hash: str,
-):
+        email: str,
+        password_hash: str
+    ):
     conn = get_db_connection()
-    try:
-        cursor = conn.cursor()
-        cursor.execute("{call dbo.procValidateUser(?, ?)}", (email, password_hash))
-        columns = [column[0] for column in cursor.description]
-        rows = cursor.fetchall()
-    finally:
-        conn.close()
+    cursor = conn.cursor(as_dict=True)
+    cursor.callproc("procValidateUser", (email, password_hash))
+    rows = cursor.fetchall()
+    conn.close()
 
-    results = [dict(zip(columns, row)) for row in rows]
+    results = [
+        {
+            "AppUserID": row["AppUserID"],
+            "Fullname": row["Fullname"],
+            "UserRole": row["UserRole"]
+        }
+        for row in rows
+    ]
 
     return {"data": results}

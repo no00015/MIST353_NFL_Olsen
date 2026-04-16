@@ -1,19 +1,24 @@
 from get_db_connection import get_db_connection
-
+import pymssql
 
 def get_teams_by_conference_division(
-    conference: str = None,
-    division: str = None,
-):
+        conference: str = None, 
+        division: str = None
+    ):
     conn = get_db_connection()
-    try:
-        cursor = conn.cursor()
-        cursor.execute("{call dbo.procGetTeamsByConferenceDivision(?, ?)}", (conference, division))
-        columns = [column[0] for column in cursor.description]
-        rows = cursor.fetchall()
-    finally:
-        conn.close()
+    cursor = conn.cursor(as_dict=True)
+    cursor.callproc("procGetTeamsByConferenceDivision", (conference, division)) 
+    rows = cursor.fetchall()
+    conn.close()
 
-    results = [dict(zip(columns, row)) for row in rows]
+    results = [
+        {
+            "TeamName": row["TeamName"],
+            "Conference": row["Conference"],
+            "Division": row["Division"],
+            "TeamColors": row["TeamColors"]
+        }
+        for row in rows
+    ]
 
     return {"data": results}

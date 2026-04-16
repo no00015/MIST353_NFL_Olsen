@@ -1,12 +1,12 @@
 from get_db_connection import get_db_connection
 import pymssql
 
-def get_teams_in_same_conference_division_as_specified_team(
-        team_name: str
-):
+def get_teams_for_specified_fan(
+        fan_id: int
+    ):
     conn = get_db_connection()
     cursor = conn.cursor(as_dict=True)
-    cursor.execute("procGetTeamsInSameConferenceDivisionAsSpecifiedTeam %s", (team_name))
+    cursor.execute("exec procGetTeamsForSpecifiedFan %s", (fan_id))
     rows = cursor.fetchall()
     conn.close()
 
@@ -14,7 +14,9 @@ def get_teams_in_same_conference_division_as_specified_team(
         {
             "TeamName": row["TeamName"],
             "Conference": row["Conference"],
-            "Division": row["Division"]
+            "Division": row["Division"],
+            "TeamColors": row["TeamColors"],
+            "PrimaryTeam": row["PrimaryTeam"]
         }
         for row in rows
     ]
