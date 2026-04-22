@@ -7,6 +7,7 @@ from get_teams_for_specified_fan_ui import get_teams_for_specified_fan_ui
 st.title("NFL Playoffs App")
 st.write("Welcome to the NFL Playoffs App! Use the sidebar to navigate through different features and explore information about NFL teams, players, and playoff matchups.")
 
+
 with st.sidebar:
     st.title("NFL Playoff Functionalities")
 

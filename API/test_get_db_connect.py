@@ -19,9 +19,9 @@ def test_get_db_connection():
 
 
 
+
   conn = get_db_connection()
   
-
   assert isinstance(conn, pymssql.Connection), "Expected a pymssql.Connection"
 
   print("Connection object returned")
@@ -41,7 +41,7 @@ def test_get_db_connection():
 
   print("Connection closed cleanly")
 
-  print("\n🎉 All tests passed!")
+  print("\nAll tests passed!")
 
 
 

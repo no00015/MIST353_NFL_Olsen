@@ -4,6 +4,7 @@ import pymssql
 def get_teams_for_specified_fan(
         fan_id: int
     ):
+
     conn = get_db_connection()
     cursor = conn.cursor(as_dict=True)
     cursor.execute("exec procGetTeamsForSpecifiedFan %s", (fan_id))

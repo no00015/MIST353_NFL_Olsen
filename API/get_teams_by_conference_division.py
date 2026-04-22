@@ -5,11 +5,13 @@ def get_teams_by_conference_division(
         conference: str = None, 
         division: str = None
     ):
+
     conn = get_db_connection()
     cursor = conn.cursor(as_dict=True)
     cursor.callproc("procGetTeamsByConferenceDivision", (conference, division)) 
     rows = cursor.fetchall()
     conn.close()
+
 
     results = [
         {
