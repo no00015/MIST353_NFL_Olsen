@@ -258,7 +258,16 @@ VALUES
     (6, 10, '2026-04-23 02:14:45.890', 'Insert', 'Sean McVay scheduled a new game with GameID 10: Chicago Bears vs Los Angeles Rams on 2026-01-18 at 18:30:00.0000000 in stadium  Soldier Field. Game round: Divisional'),
     (7, 10, '2026-04-23 02:14:49.420', 'Update', 'Scores updated by Mike Tomlin for GameID=10: Home=Chicago Bears (17), Away=Los Angeles Rams (20), WinningTeam=Los Angeles Rams');
 
+GO
 
+execute procScheduleGame
+    @HomeTeamID = 13,
+    @AwayTeamID = 11,
+    @GameRound = 'Conference',
+    @GameDay = '2026-01-25',
+    @GameStartTime = '15:30',
+    @StadiumID = 13,
+    @NFLAdminID = 5;
 
 -- select * from AdminChangesTracker
 -- select * from Game
