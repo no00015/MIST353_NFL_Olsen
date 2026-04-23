@@ -32,6 +32,7 @@ create TABLE ConferenceDivision (
     constraint UK_ConferenceDivision UNIQUE (Conference, Division)
 );
 
+
 go
 
 create TABLE Team ( 
