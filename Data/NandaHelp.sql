@@ -18,3 +18,7 @@ inner join ConferenceDivision as CD on T.ConferenceDivisionID = CD.ConferenceDiv
 where T.TeamName = 'Pittsburgh Steelers';
 
 --Find teamnames of the other from the AFC NORTH
+select T.TeamName
+from Team as T
+inner join ConferenceDivision as CD on T.ConferenceDivisionID = CD.ConferenceDivisionID
+where CD.Conference = 'AFC' and CD.Division = 'North' and T.TeamName != 'Pittsburgh Steelers';
