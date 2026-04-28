@@ -7,7 +7,7 @@ From ConferenceDivision as CD
 inner join Team as T on CD.ConferenceDivisionID = T.ConferenceDivisionID;
 
 -- Figure out the name of the conference and division for the Pittsburgh Steelers
-Select CD.Conference, CD.Division,
+Select CD.Conference, CD.Division
 From ConferenceDivision as CD
 inner join Team as T on CD.ConferenceDivisionID = T.ConferenceDivisionID
 where T.TeamName = 'Pittsburgh Steelers';
